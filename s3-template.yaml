@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: AuthenticatedRead
+      BucketName: 'go-lambda-lc-20191211'
+      VersioningConfiguration:
+        Status: Enabled
+  # add this after having created S3 bucket
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Fn::Sub: lambda--go-role
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+            - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+              - lambda.amazonaws.com
+        Version: 2012-10-17
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSLambdaExecute
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+      Path: /
+  LambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: lambda-go-function
+      Runtime: go1.x
+      Code:
+        S3Bucket: !Ref S3Bucket
+        S3Key: 'aws-lambda-go.zip'
+      Handler: aws-lambda-go
+      Role:
+        Fn::GetAtt:
+          - LambdaRole
+          - Arn
