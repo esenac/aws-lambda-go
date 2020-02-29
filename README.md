@@ -22,7 +22,7 @@ _Note: this step isn't mandatory for `plan` and `apply` commands, since it's aut
 
 ### Terraform commands
 
-Terraform `plan`, `apply` and `destroy` commands are available on the correspondant `make` commands. 
+Terraform `plan`, `apply` and `destroy` commands are available on the corresponding `make` commands. 
 
 ## TODO
 
