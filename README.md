@@ -1,25 +1,29 @@
 # aws-lambda-go
 
-Create an S3 bucket (remove lines after the comment in template.yaml)
-`aws cloudformation deploy --template-file template.yaml --stack-name GolangLambda`
+Sample project to deploy an AWS Lambda function in Go using Terraform.
 
-Build go source 
-`env GOOS=linux GOARCH=amd64 go build .`
+## How to
 
-and zip it, then upload it to S3 bucket
+### Overview 
 
-`aws s3api put-object --body aws-lambda-go.zip --bucket go-lambda-lc-20191211 --key aws-lambda-go.zip`
+Commands are defined in `Makefile` and allow to perform Terraform commands in a Docker image, installing the required providers once. This is acheived by mounting files in the docker instead of the whole project folder, preventing to override `providers.tf` file (it's used in Dockerfile to install Terraform plugins).
 
-Re-deploy the first stack after having uploaded the zip.
+### Build Docker image
 
-`aws cloudformation deploy --template-file template.yaml --stack-name GolangLambda --capabilities CAPABILITY_NAMED_IAM`
-
-Invoke the newly created lambda:
-
-`aws lambda invoke --function-name lambda-go-function --payload '{ "name": "Bob" }' response.json`
+You have to build the Docker image containing Terraform and the required providers, so that you don't have to download Terraform binary to your machine.
+Anyway, this step is not required if you pull the latest image from dockerhub.
 
 
-TBD
+### Compile source code
 
-- how to update lambda after a new S3 upload
-- delete custom object names to prevent errors when relaunching commands
+In order to compile your source code, run `make compile`. This command executes `go build` command in a Go docker, so that you don't have to install Go on your machine.
+
+_Note: this step isn't mandatory for `plan` and `apply` commands, since it's automatically executed._
+
+### Terraform commands
+
+Terraform `plan`, `apply` and `destroy` commands are available on the correspondant `make` commands. 
+
+## TODO
+
+We still have to handle remote state, that's why `terraform.tfstate` is mounted in the Docker.
