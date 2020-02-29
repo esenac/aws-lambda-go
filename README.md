@@ -26,4 +26,4 @@ Terraform `plan`, `apply` and `destroy` commands are available on the correspond
 
 ## TODO
 
-We still have to handle remote state, so that the above commands will behave as intended.
+We still have to handle remote state, that's why `terraform.tfstate` is mounted in the Docker.
