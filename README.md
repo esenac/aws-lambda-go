@@ -11,7 +11,7 @@ Commands are defined in `Makefile` and allow to perform Terraform commands in a 
 ### Build Docker image
 
 You have to build the Docker image containing Terraform and the required providers, so that you don't have to download Terraform binary to your machine.
-Anyway, this step is not required if you pull the latest image from dockerhub.
+Anyway, this step is not required if you pull the latest image from [Docker Hub](https://hub.docker.com/repository/docker/esenac/terraform-aws).
 
 
 ### Compile source code
