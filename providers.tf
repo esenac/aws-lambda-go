@@ -1,8 +1,14 @@
-provider "aws" {
-  version = "~> 2.0"
-  region  = "us-east-1"
+terraform {
+  required_providers {
+    aws = {
+      version = "~> 2.0"
+    }
+    archive = {
+      version = "~> 1.3.0"
+    }
+  }
 }
 
-provider "archive" {
-  version = "~> 1.3.0"
+provider "aws" {
+  region  = "us-east-1"
 }
